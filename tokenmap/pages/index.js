@@ -15,12 +15,16 @@ export default function Home() {
 
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState('not-loaded')
-  useEffect(() => {
-    loadNFTs()
-  }, [])
+
+
+
+  async function loadLands() {
+
+  }
+
   return (
     <div>
-   <h1> Home </h1>
+      <h1> Home </h1>
     </div>
   )
 }
