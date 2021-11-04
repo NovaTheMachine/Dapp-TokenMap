@@ -12,6 +12,12 @@ import Market from '/home/toshiba/projects/Blockchain/HACKATHON/Dapp-TokenMap/to
 
 
 export default function Home() {
+
+  const [nfts, setNfts] = useState([])
+  const [loadingState, setLoadingState] = useState('not-loaded')
+  useEffect(() => {
+    loadNFTs()
+  }, [])
   return (
     <div>
    <h1> Home </h1>
