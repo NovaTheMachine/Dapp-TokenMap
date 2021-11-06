@@ -28,11 +28,10 @@ export default function Home() {
     *  map over items returned from smart contract and format 
     *  them as well as fetch their token metadata
     */
-    const items = await Promise.all(data.map(async i => {
+    const lands = await Promise.all(data.map(async i => {
       const tokenUri = await tokenContract.tokenURI(i.tokenId)
       const meta = await axios.get(tokenUri)
-      let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
-      let Land = {
+        let Land = {
         tokenId: i.tokenId.toNumber(),
         seller: i.seller,
         owner: i.owner,
