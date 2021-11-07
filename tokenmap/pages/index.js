@@ -41,7 +41,7 @@ export default function Home() {
       }
       return Land
     }))
-    setNfts(Lands)
+    setNfts(lands)
     setLoadingState('loaded') 
   }
 

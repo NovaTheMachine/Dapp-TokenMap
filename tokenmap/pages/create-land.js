@@ -101,7 +101,28 @@ export default function CreateLand() {
                         onChange={e => updateFormInput({ ...formInput, centerCoordinatesLong: e.target.value })}
                     />
                     <input
+                        placeholder="Coordinates lat 1"
+                        className="mt-1 border rounded p-4"
+                        onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
+                    />
+                    <input
+                        placeholder="Coordinates "
+                        className="mt-1 border rounded p-4"
+                        onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
+                    />
+
+                    <input
+                        placeholder="Coordinates lat 2"
+                        className="mt-1 border rounded p-4"
+                        onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
+                    /> lat
+                    <input
                         placeholder="Coordinates"
+                        className="mt-1 border rounded p-4"
+                        onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
+                    />
+                    <input
+                        placeholder="Coordinates lat 3"
                         className="mt-1 border rounded p-4"
                         onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
                     />
@@ -112,28 +133,7 @@ export default function CreateLand() {
                     />
 
                     <input
-                        placeholder="Coordinates"
-                        className="mt-1 border rounded p-4"
-                        onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
-                    />
-                    <input
-                        placeholder="Coordinates"
-                        className="mt-1 border rounded p-4"
-                        onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
-                    />
-                    <input
-                        placeholder="Coordinates"
-                        className="mt-1 border rounded p-4"
-                        onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
-                    />
-                    <input
-                        placeholder="Coordinates"
-                        className="mt-1 border rounded p-4"
-                        onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
-                    />
-
-                    <input
-                        placeholder="Coordinates"
+                        placeholder="Coordinates lat 4 "
                         className="mt-1 border rounded p-4"
                         onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
                     />
@@ -160,7 +160,7 @@ export default function CreateLand() {
                     )
                 }
                 <button onClick={createMarket} className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
-                    Create Digital Asset
+                    Create New Land
                 </button>
             </div>
         </div>
