@@ -16,7 +16,7 @@ import Market from '/home/toshiba/projects/Blockchain/HACKATHON/Dapp-TokenMap/to
 
 export default function CreateLand() {
     const [fileUrl, setFileUrl] = useState(null)
-    const [formInput, updateFormInput] = useState({ GeolocationCoordinates: '', name: '', description: '' })
+    const [formInput, updateFormInput] = useState({ GeolocationCoordinates: '', name: '', description: '', price: '' })
     const router = useRouter()
 
     async function onChange(e) {
@@ -35,7 +35,7 @@ export default function CreateLand() {
         }
     }
     async function createMarket() {
-        const { name, description, GeolocationCoordinates } = formInput
+        const { name, description, GeolocationCoordinates, price } = formInput
         if (!name || !description || !GeolocationCoordinates || !fileUrl) return
         /* first, upload to IPFS */
         const data = JSON.stringify({
@@ -65,11 +65,14 @@ export default function CreateLand() {
         let value = event.args[2]
         let tokenId = value.toNumber()
 
+        const price = ethers.utils.parseUnits(formInput.price, 'ether')
+
         /* then list the item for sale on the marketplace */
         contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
+        let listingPrice = await contract.getListingPrice()
+        listingPrice = listingPrice.toString()
 
-
-        transaction = await contract.createMarketItem(nftaddress, tokenId)
+        transaction = await contract.createMarketItem(nftaddress, tokenId, price, { value: listingPrice })
         await transaction.wait()
         router.push('/')
     }
@@ -87,8 +90,11 @@ export default function CreateLand() {
                     className="mt-2 border rounded p-4"
                     onChange={e => updateFormInput({ ...formInput, description: e.target.value })}
                 />
-
-
+                <input
+                    placeholder="Asset Price in Eth"
+                    className="mt-2 border rounded p-4"
+                    onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
+                />
                 <div class="grid grid-cols-2 gap-2">
                     <input
                         placeholder="Center Coordinate lat"

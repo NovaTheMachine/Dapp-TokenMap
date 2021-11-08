@@ -25,8 +25,9 @@ contract NFTMarket is ReentrancyGuard {
         address payable seller;
         address payable owner;
         bool sold;
-        uint256[] CenterCoords;
-        uint256[] PolygonCoords;
+        int256 CoordCenter;
+        int256 PolygonCoords;
+        uint256 price;
     }
 
     mapping(uint256 => Land) private idToMarketItem;
@@ -38,8 +39,9 @@ contract NFTMarket is ReentrancyGuard {
         address seller,
         address owner,
         bool sold,
-        uint256[] CoordCenter,
-        uint256[] PolygonCoords
+        int256 CoordCenter,
+        int256 PolygonCoords,
+        uint256 price
     );
 
     function getListingPrice() public view returns (uint256) {
@@ -49,8 +51,9 @@ contract NFTMarket is ReentrancyGuard {
     function createMarketItem(
         address nftContract,
         uint256 tokenId,
-        uint256[] memory CoordCenter,
-        uint256[] memory PolygonCoords
+        int256 CoordCenter,
+        int256 PolygonCoords,
+        uint256 price
     ) public payable nonReentrant {
         _itemIds.increment();
         uint256 itemId = _itemIds.current();
@@ -63,7 +66,8 @@ contract NFTMarket is ReentrancyGuard {
             payable(address(0)),
             false,
             CoordCenter,
-            PolygonCoords
+            PolygonCoords,
+            price
         );
 
         IERC721(nftContract).transferFrom(msg.sender, address(this), tokenId);
@@ -75,7 +79,8 @@ contract NFTMarket is ReentrancyGuard {
             address(0),
             false,
             CoordCenter,
-            PolygonCoords
+            PolygonCoords,
+            price
         );
     }
 
@@ -84,14 +89,19 @@ contract NFTMarket is ReentrancyGuard {
         payable
         nonReentrant
     {
+        uint256 price = idToMarketItem[itemId].price;
         uint256 tokenId = idToMarketItem[itemId].tokenId;
+        require(
+            msg.value == price,
+            "Please submit the asking price in order to complete the purchase"
+        );
 
         idToMarketItem[itemId].seller.transfer(msg.value);
         IERC721(nftContract).transferFrom(address(this), msg.sender, tokenId);
         idToMarketItem[itemId].owner = payable(msg.sender);
         idToMarketItem[itemId].sold = true;
         _itemsSold.increment();
-        payable(owner).transfer;
+        payable(owner).transfer(listingPrice);
     }
 
     /* Returns all unsold market items */
@@ -126,7 +136,8 @@ contract NFTMarket is ReentrancyGuard {
         Land[] memory items = new Land[](itemCount);
         for (uint256 i = 0; i < totalItemCount; i++) {
             if (idToMarketItem[i + 1].owner == msg.sender) {
-                uint256 currentId = i + 1;Land storage currentItem = idToMarketItem[currentId];
+                uint256 currentId = i + 1;
+                Land storage currentItem = idToMarketItem[currentId];
                 items[currentIndex] = currentItem;
                 currentIndex += 1;
             }

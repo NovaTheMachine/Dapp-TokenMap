@@ -31,7 +31,9 @@ export default function Home() {
     const lands = await Promise.all(data.map(async i => {
       const tokenUri = await tokenContract.tokenURI(i.tokenId)
       const meta = await axios.get(tokenUri)
+      let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
         let Land = {
+          price,
         tokenId: i.tokenId.toNumber(),
         seller: i.seller,
         owner: i.owner,
@@ -44,7 +46,20 @@ export default function Home() {
     setNfts(lands)
     setLoadingState('loaded') 
   }
+  async function buyNft(nft) {
+    const web3Modal = new Web3Modal()
+    const connection = await web3Modal.connect()
+    const provider = new ethers.providers.Web3Provider(connection)
+    const signer = provider.getSigner()
+    const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
 
+    const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')
+    const transaction = await contract.createMarketSale(nftaddress, nft.itemId, {
+      value: price
+    })
+    await transaction.wait()
+    loadNFTs()
+  }
   if (loadingState === 'loaded' && !nfts.length) return (<h1 className="px-20 py-10 text-3xl">No Lands in This place</h1>)
   return (
     <div className="flex justify-center">
