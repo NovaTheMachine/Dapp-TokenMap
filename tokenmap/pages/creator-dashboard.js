@@ -43,6 +43,7 @@ export default function CreatorDashboard() {
                 owner: i.owner,
                 sold: i.sold,
                 image: meta.data.image,
+                CoordCenter: meta.data.CoordCenter,
             }
             return item
         }))
@@ -64,6 +65,7 @@ export default function CreatorDashboard() {
                                 <img src={nft.image} className="rounded" />
                                 <div className="p-4 bg-black">
                                     <p className="text-2xl font-bold text-white">Price - {nft.price} Eth</p>
+                                    <p className="text-2xl font-bold text-white">Coords - {nft.CoordCenter}</p>
                                 </div>
                             </div>
                         ))

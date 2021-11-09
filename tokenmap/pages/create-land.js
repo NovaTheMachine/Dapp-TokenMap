@@ -17,9 +17,8 @@ import Market from '/home/toshiba/projects/Blockchain/HACKATHON/Dapp-TokenMap/to
 
 export default function CreateItem() {
     const [fileUrl, setFileUrl] = useState(null)
-    const [formInput, updateFormInput] = useState({ price: '', name: '', description: '', CoordCenter: '' })
+    const [formInput, updateFormInput] = useState({ price: '', name: '', description: '',CoordCenter:'',PolygonCoords:'' })
     const router = useRouter()
-
 
     async function onChange(e) {
         const file = e.target.files[0]
@@ -37,11 +36,11 @@ export default function CreateItem() {
         }
     }
     async function createMarket() {
-        const { name, description, price, CoordCenter } = formInput
+        const { name, description, price ,CoordCenter,PolygonCoords } = formInput
         if (!name || !description || !price || !fileUrl) return
         /* first, upload to IPFS */
         const data = JSON.stringify({
-            name, description, image: fileUrl , CoordCenter
+            name, description, image: fileUrl ,CoordCenter,PolygonCoords
         })
         try {
             const added = await client.add(data)
@@ -66,17 +65,19 @@ export default function CreateItem() {
         let event = tx.events[0]
         let value = event.args[2]
         let tokenId = value.toNumber()
-        const price = ethers.utils.parseEther(formInput.price, 'ether')
+        const price = ethers.utils.parseUnits(formInput.price, 'ether')
+        const CoordCenter = formInput.CoordCenter
+        const PolygonCoords = formInput.PolygonCoords
 
 
         /* then list the item for sale on the marketplace */
         contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
-        let listingPrice = await contract.getListingPrice()
-        listingPrice = listingPrice.toString()
-        let CoordCenter = await contract.getCoordinates()
-        CoordCenter = CoordCenter.toString()
 
-        transaction = await contract.createMarketItem(nftaddress, tokenId, price, CoordCenter, { value: listingPrice })
+
+
+
+
+        transaction = await contract.createMarketItem(nftaddress, tokenId, price,CoordCenter,PolygonCoords)
         await transaction.wait()
         router.push('/')
     }
@@ -89,11 +90,6 @@ export default function CreateItem() {
                     className="mt-8 border rounded p-4"
                     onChange={e => updateFormInput({ ...formInput, name: e.target.value })}
                 />
-                <input
-                    placeholder="CoordCenter"
-                    className="mt-8 border rounded p-4"
-                    onChange={e => updateFormInput({ ...formInput, CoordCenter: e.target.value })}
-                />
                 <textarea
                     placeholder="Asset Description"
                     className="mt-2 border rounded p-4"
@@ -103,6 +99,16 @@ export default function CreateItem() {
                     placeholder="Asset Price in Eth"
                     className="mt-2 border rounded p-4"
                     onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
+                />
+                <input
+                    placeholder="CoordCenter"
+                    className="mt-2 border rounded p-4"
+                    onChange={e => updateFormInput({ ...formInput, CoordCenter: e.target.value })}
+                />
+                 <input
+                    placeholder="PolygonCoords"
+                    className="mt-2 border rounded p-4"
+                    onChange={e => updateFormInput({ ...formInput, PolygonCoords: e.target.value })}
                 />
                 <input
                     type="file"

@@ -40,6 +40,7 @@ export default function Home() {
         image: meta.data.image,
         name: meta.data.name,
         description: meta.data.description,
+        CoordCenter: meta.data.CoordCenter
       }
       return Land
     }))
@@ -68,7 +69,7 @@ export default function Home() {
           {
             nfts.map((nft, i) => (
               <div key={i} className="border shadow rounded-xl overflow-hidden">
-                <img src={"Google api"} />
+                <img src={nft.image} />
                 <div className="p-4">
                   <p style={{ height: '64px' }} className="text-2xl font-semibold">{nft.name}</p>
                   <div style={{ height: '70px', overflow: 'hidden' }}>
@@ -77,6 +78,7 @@ export default function Home() {
                 </div>
                 <div className="p-4 bg-black">
                   <p className="text-2xl mb-4 font-bold text-white">{nft.price} ETH</p>
+                  <p className="text-2xl mb-4 font-bold text-white">{nft.CoordCenter} CoordCenter</p>
                 </div>
               </div>
             ))

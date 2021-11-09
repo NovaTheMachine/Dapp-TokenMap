@@ -41,6 +41,7 @@ export default function MyAssets() {
         seller: i.seller,
         owner: i.owner,
         image: meta.data.image,
+        CoordCenter: meta.data.CoordCenter
       }
       return item
     }))

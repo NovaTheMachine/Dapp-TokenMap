@@ -13,7 +13,7 @@ contract NFTMarket is ReentrancyGuard {
 
     address payable owner;
     uint256 listingPrice = 1;
-    uint256 coordinates = 1;
+    
 
     constructor() {
         owner = payable(msg.sender);
@@ -26,8 +26,8 @@ contract NFTMarket is ReentrancyGuard {
         address payable seller;
         address payable owner;
         bool sold;
-        uint256 CoordCenter;
-        uint256 PolygonCoords;
+        int256 CoordCenter;
+        int256 PolygonCoords;
         uint256 price;
     }
 
@@ -40,8 +40,8 @@ contract NFTMarket is ReentrancyGuard {
         address seller,
         address owner,
         bool sold,
-        uint256 CoordCenter,
-        uint256 PolygonCoords,
+        int256 CoordCenter,
+        int256 PolygonCoords,
         uint256 price
     );
 
@@ -49,15 +49,13 @@ contract NFTMarket is ReentrancyGuard {
         return listingPrice;
     }
 
-    function getCoordinates() public view returns (uint256) {
-        return coordinates;
-    }
+
 
     function createMarketItem(
         address nftContract,
         uint256 tokenId,
-        uint256 CoordCenter,
-        uint256 PolygonCoords,
+        int256 CoordCenter,
+        int256 PolygonCoords,
         uint256 price
     ) public payable nonReentrant {
         _itemIds.increment();
