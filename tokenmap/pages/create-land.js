@@ -14,10 +14,12 @@ import {
 import NFT from '/home/toshiba/projects/Blockchain/HACKATHON/Dapp-TokenMap/tokenmap/artifacts/contracts/NFT.sol/NFT.json'
 import Market from '/home/toshiba/projects/Blockchain/HACKATHON/Dapp-TokenMap/tokenmap/artifacts/contracts/NFTMarket.sol/NFTMarket.json'
 
-export default function CreateLand() {
+
+export default function CreateItem() {
     const [fileUrl, setFileUrl] = useState(null)
-    const [formInput, updateFormInput] = useState({ GeolocationCoordinates: '', name: '', description: '', price: '' })
+    const [formInput, updateFormInput] = useState({ price: '', name: '', description: '', CoordCenter: '' })
     const router = useRouter()
+
 
     async function onChange(e) {
         const file = e.target.files[0]
@@ -35,11 +37,11 @@ export default function CreateLand() {
         }
     }
     async function createMarket() {
-        const { name, description, GeolocationCoordinates, price } = formInput
-        if (!name || !description || !GeolocationCoordinates || !fileUrl) return
+        const { name, description, price, CoordCenter } = formInput
+        if (!name || !description || !price || !fileUrl) return
         /* first, upload to IPFS */
         const data = JSON.stringify({
-            name, description, image: fileUrl
+            name, description, image: fileUrl , CoordCenter
         })
         try {
             const added = await client.add(data)
@@ -51,7 +53,7 @@ export default function CreateLand() {
         }
     }
 
-    async function create(url) {
+    async function createSale(url) {
         const web3Modal = new Web3Modal()
         const connection = await web3Modal.connect()
         const provider = new ethers.providers.Web3Provider(connection)
@@ -64,29 +66,36 @@ export default function CreateLand() {
         let event = tx.events[0]
         let value = event.args[2]
         let tokenId = value.toNumber()
+        const price = ethers.utils.parseEther(formInput.price, 'ether')
 
-        const price = ethers.utils.parseUnits(formInput.price, 'ether')
 
         /* then list the item for sale on the marketplace */
         contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
         let listingPrice = await contract.getListingPrice()
         listingPrice = listingPrice.toString()
+        let CoordCenter = await contract.getCoordinates()
+        CoordCenter = CoordCenter.toString()
 
-        transaction = await contract.createMarketItem(nftaddress, tokenId, price, { value: listingPrice })
+        transaction = await contract.createMarketItem(nftaddress, tokenId, price, CoordCenter, { value: listingPrice })
         await transaction.wait()
         router.push('/')
     }
 
     return (
-        <div className="flex justify-evenly">
-            <div className="w-1/2 flex flex-col ">
+        <div className="flex justify-center">
+            <div className="w-1/2 flex flex-col pb-12">
                 <input
-                    placeholder="Name"
+                    placeholder="Asset Name"
                     className="mt-8 border rounded p-4"
                     onChange={e => updateFormInput({ ...formInput, name: e.target.value })}
                 />
+                <input
+                    placeholder="CoordCenter"
+                    className="mt-8 border rounded p-4"
+                    onChange={e => updateFormInput({ ...formInput, CoordCenter: e.target.value })}
+                />
                 <textarea
-                    placeholder="Description"
+                    placeholder="Asset Description"
                     className="mt-2 border rounded p-4"
                     onChange={e => updateFormInput({ ...formInput, description: e.target.value })}
                 />
@@ -95,65 +104,6 @@ export default function CreateLand() {
                     className="mt-2 border rounded p-4"
                     onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
                 />
-                <div class="grid grid-cols-2 gap-2">
-                    <input
-                        placeholder="Center Coordinate lat"
-                        className="mt-2 border rounded p-4"
-                        onChange={e => updateFormInput({ ...formInput, centerCoordinatesLat: e.target.value })}
-                    />
-                    <input
-                        placeholder="Center Coordinate long"
-                        className="mt-2 border rounded p-4"
-                        onChange={e => updateFormInput({ ...formInput, centerCoordinatesLong: e.target.value })}
-                    />
-                    <input
-                        placeholder="Coordinates lat 1"
-                        className="mt-1 border rounded p-4"
-                        onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
-                    />
-                    <input
-                        placeholder="Coordinates "
-                        className="mt-1 border rounded p-4"
-                        onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
-                    />
-
-                    <input
-                        placeholder="Coordinates lat 2"
-                        className="mt-1 border rounded p-4"
-                        onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
-                    /> lat
-                    <input
-                        placeholder="Coordinates"
-                        className="mt-1 border rounded p-4"
-                        onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
-                    />
-                    <input
-                        placeholder="Coordinates lat 3"
-                        className="mt-1 border rounded p-4"
-                        onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
-                    />
-                    <input
-                        placeholder="Coordinates"
-                        className="mt-1 border rounded p-4"
-                        onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
-                    />
-
-                    <input
-                        placeholder="Coordinates lat 4 "
-                        className="mt-1 border rounded p-4"
-                        onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
-                    />
-                    <input
-                        placeholder="Coordinates"
-                        className="mt-1 border rounded p-4"
-                        onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
-                    />
-                </div>
-
-
-
-
-
                 <input
                     type="file"
                     name="Asset"
@@ -166,7 +116,7 @@ export default function CreateLand() {
                     )
                 }
                 <button onClick={createMarket} className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
-                    Create New Land
+                    Create Digital Asset
                 </button>
             </div>
         </div>

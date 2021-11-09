@@ -1,3 +1,4 @@
+/* pages/my-assets.js */
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
@@ -7,8 +8,9 @@ import {
   nftmarketaddress, nftaddress
 } from '../config'
 
-import Market from '/home/toshiba/projects/Blockchain/HACKATHON/Dapp-TokenMap/tokenmap/artifacts/contracts/NFTMarket.sol/NFTMarket.json'
 import NFT from '/home/toshiba/projects/Blockchain/HACKATHON/Dapp-TokenMap/tokenmap/artifacts/contracts/NFT.sol/NFT.json'
+import Market from '/home/toshiba/projects/Blockchain/HACKATHON/Dapp-TokenMap/tokenmap/artifacts/contracts/NFTMarket.sol/NFTMarket.json'
+
 
 export default function MyAssets() {
   const [nfts, setNfts] = useState([])
@@ -45,7 +47,7 @@ export default function MyAssets() {
     setNfts(items)
     setLoadingState('loaded')
   }
-  if (loadingState === 'loaded' && !nfts.length) return (<h1 className="py-10 px-20 text-3xl">No Lands owned</h1>)
+  if (loadingState === 'loaded' && !nfts.length) return (<h1 className="py-10 px-20 text-3xl">No assets owned</h1>)
   return (
     <div className="flex justify-center">
       <div className="p-4">

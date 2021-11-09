@@ -21,7 +21,7 @@ export default function Home() {
     /* create a generic provider and query for unsold market items */
     const provider = new ethers.providers.JsonRpcProvider()
     const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider)
-    const marketContract = new ethers.Contract(nftmarketaddress, NFTMarket.abi, provider)
+    const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, provider)
     const data = await marketContract.fetchMarketItems()
 
     /*
@@ -32,8 +32,8 @@ export default function Home() {
       const tokenUri = await tokenContract.tokenURI(i.tokenId)
       const meta = await axios.get(tokenUri)
       let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
-        let Land = {
-          price,
+      let Land = {
+        price,
         tokenId: i.tokenId.toNumber(),
         seller: i.seller,
         owner: i.owner,
@@ -44,7 +44,7 @@ export default function Home() {
       return Land
     }))
     setNfts(lands)
-    setLoadingState('loaded') 
+    setLoadingState('loaded')
   }
   async function buyNft(nft) {
     const web3Modal = new Web3Modal()
@@ -53,7 +53,7 @@ export default function Home() {
     const signer = provider.getSigner()
     const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
 
-    const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')
+    const price = ethers.utils.parseEther(nft.price.toString(), 'ether')
     const transaction = await contract.createMarketSale(nftaddress, nft.itemId, {
       value: price
     })
@@ -77,7 +77,7 @@ export default function Home() {
                 </div>
                 <div className="p-4 bg-black">
                   <p className="text-2xl mb-4 font-bold text-white">{nft.price} ETH</p>
-            </div>
+                </div>
               </div>
             ))
           }
