@@ -7,6 +7,7 @@ import Web3Modal from 'web3modal'
 
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
 
+
 import {
     nftaddress, nftmarketaddress
 } from '../config'
@@ -83,6 +84,7 @@ export default function CreateItem() {
     }
 
     return (
+      
         <div className="flex justify-center">
             <div className="w-1/2 flex flex-col pb-12">
                 <input
@@ -126,5 +128,6 @@ export default function CreateItem() {
                 </button>
             </div>
         </div>
+      
     )
 }

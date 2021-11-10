@@ -8,6 +8,29 @@ import {
     nftmarketaddress, nftaddress
 } from '../config'
 
+// Create the script tag, set the appropriate attributes
+var script = document.createElement('script');
+script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyD2J9TyPQUKhwf4a63N4E0Mj3jn01laYsk&callback=initMap';
+script.async = true;
+
+// Attach your callback function to the `window` object
+window.initMap = function() {
+  // JS API is loaded and available
+};
+
+// Append the 'script' element to 'head'
+document.head.appendChild(script);
+
+
+let map;
+
+function initMap() {
+    map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: -34.397, lng: 150.644 },
+        zoom: 8,
+    });
+}
+
 import NFT from '/home/toshiba/projects/Blockchain/HACKATHON/Dapp-TokenMap/tokenmap/artifacts/contracts/NFT.sol/NFT.json'
 import Market from '/home/toshiba/projects/Blockchain/HACKATHON/Dapp-TokenMap/tokenmap/artifacts/contracts/NFTMarket.sol/NFTMarket.json'
 
@@ -55,22 +78,32 @@ export default function CreatorDashboard() {
     }
     if (loadingState === 'loaded' && !nfts.length) return (<h1 className="py-10 px-20 text-3xl">No assets created</h1>)
     return (
+        <html>
+        <head>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2J9TyPQUKhwf4a63N4E0Mj3jn01laYsk&v=3&callback=init" async defer></script>
+        </head>
+
         <div>
             <div className="p-4">
                 <h2 className="text-2xl py-2">Items Created</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
                     {
                         nfts.map((nft, i) => (
+                           <div id="__next">
+                           <div id="map">
+                            </div>
                             <div key={i} className="border shadow rounded-xl overflow-hidden">
-                                <img src={nft.image} className="rounded" />
+                                
                                 <div className="p-4 bg-black">
                                     <p className="text-2xl font-bold text-white">Price - {nft.price} Eth</p>
                                     <p className="text-2xl font-bold text-white">Coords - {nft.CoordCenter}</p>
                                 </div>
                             </div>
+                            </div>
                         ))
                     }
                 </div>
+                
             </div>
             <div className="px-4">
                 {
@@ -94,5 +127,6 @@ export default function CreatorDashboard() {
                 }
             </div>
         </div>
+        </html>
     )
 }

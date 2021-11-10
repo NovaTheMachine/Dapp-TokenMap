@@ -2,3 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+#map {
+    height: 100%;
+  }
+  #__next {
+    height: 100%;
+  }
