@@ -1,9 +1,9 @@
 /* pages/index.js */
 import { ethers } from 'ethers'
-import { useEffect, useState,useRef } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from "web3modal"
-import {Loader} from '@googlemaps/js-api-loader';
+import { Loader } from "@googlemaps/js-api-loader"
 
 import {
   nftaddress, nftmarketaddress
@@ -12,19 +12,21 @@ import {
 import NFT from '/home/toshiba/projects/Blockchain/HACKATHON/Dapp-TokenMap/tokenmap/artifacts/contracts/NFT.sol/NFT.json'
 import Market from '/home/toshiba/projects/Blockchain/HACKATHON/Dapp-TokenMap/tokenmap/artifacts/contracts/NFTMarket.sol/NFTMarket.json'
 
-let map;
-
-function initMap() {
-  map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: -34.397, lng: 150.644 },
-    zoom: 8,
-  });
-}
-
 export default function Home() {
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState('not-loaded')
   useEffect(() => {
+    const loader = new Loader({
+      apiKey: "AIzaSyD2J9TyPQUKhwf4a63N4E0Mj3jn01laYsk",
+      version: "weekly"
+    });
+    
+    loader.load().then(() => {
+      map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: -34.397, lng: 150.644 },
+        zoom: 8,
+      });
+    });
     loadLands()
   }, [])
   async function loadLands() {
@@ -33,9 +35,6 @@ export default function Home() {
     const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider)
     const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, provider)
     const data = await marketContract.fetchMarketItems()
-
-
-
 
     /*
     *  map over items returned from smart contract and format 
@@ -77,13 +76,14 @@ export default function Home() {
   if (loadingState === 'loaded' && !nfts.length) return (<h1 className="px-20 py-10 text-3xl">No Lands in This place</h1>)
   return (
     <div className="flex justify-center">
+      <div id="map"></div>
+
       <div className="px-4" style={{ maxWidth: '1600px' }}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
           {
             nfts.map((nft, i) => (
-              <div key={i} className="border shadow rounded-xl overflow-hidden" id="map">
-
-
+              <div key={i} className="border shadow rounded-xl overflow-hidden">
+                <img src={nft.image} />
                 <div className="p-4">
                   <p style={{ height: '64px' }} className="text-2xl font-semibold">{nft.name}</p>
                   <div style={{ height: '70px', overflow: 'hidden' }}>
@@ -95,13 +95,9 @@ export default function Home() {
                   <p className="text-2xl mb-4 font-bold text-white">{nft.CoordCenter} CoordCenter</p>
                 </div>
               </div>
-
             ))
           }
-        </div><script
-          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2J9TyPQUKhwf4a63N4E0Mj3jn01laYsk&callback=initMap&v=weekly"
-          async
-        ></script>
+        </div>
       </div>
     </div>
   )

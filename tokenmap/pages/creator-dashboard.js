@@ -1,35 +1,16 @@
 /* pages/creator-dashboard.js */
 import { ethers } from 'ethers'
-import { useEffect, useState } from 'react'
+import { useEffect, useState,useRef } from 'react'
 import axios from 'axios'
 import Web3Modal from "web3modal"
+import { Loader } from "@googlemaps/js-api-loader"
 
 import {
     nftmarketaddress, nftaddress
 } from '../config'
 
-// Create the script tag, set the appropriate attributes
-var script = document.createElement('script');
-script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyD2J9TyPQUKhwf4a63N4E0Mj3jn01laYsk&callback=initMap';
-script.async = true;
-
-// Attach your callback function to the `window` object
-window.initMap = function() {
-  // JS API is loaded and available
-};
-
-// Append the 'script' element to 'head'
-document.head.appendChild(script);
 
 
-let map;
-
-function initMap() {
-    map = new google.maps.Map(document.getElementById("map"), {
-        center: { lat: -34.397, lng: 150.644 },
-        zoom: 8,
-    });
-}
 
 import NFT from '/home/toshiba/projects/Blockchain/HACKATHON/Dapp-TokenMap/tokenmap/artifacts/contracts/NFT.sol/NFT.json'
 import Market from '/home/toshiba/projects/Blockchain/HACKATHON/Dapp-TokenMap/tokenmap/artifacts/contracts/NFTMarket.sol/NFTMarket.json'
@@ -39,10 +20,12 @@ export default function CreatorDashboard() {
     const [nfts, setNfts] = useState([])
     const [sold, setSold] = useState([])
     const [loadingState, setLoadingState] = useState('not-loaded')
+    
     useEffect(() => {
         loadNFTs()
     }, [])
     async function loadNFTs() {
+        
         const web3Modal = new Web3Modal({
             network: "mainnet",
             cacheProvider: true,
@@ -50,6 +33,7 @@ export default function CreatorDashboard() {
         const connection = await web3Modal.connect()
         const provider = new ethers.providers.Web3Provider(connection)
         const signer = provider.getSigner()
+       
 
         const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
         const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider)
@@ -58,6 +42,8 @@ export default function CreatorDashboard() {
         const items = await Promise.all(data.map(async i => {
             const tokenUri = await tokenContract.tokenURI(i.tokenId)
             const meta = await axios.get(tokenUri)
+            
+            
             let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
             let item = {
                 price,
@@ -67,7 +53,24 @@ export default function CreatorDashboard() {
                 sold: i.sold,
                 image: meta.data.image,
                 CoordCenter: meta.data.CoordCenter,
-            }
+                            }
+                          const loader = new Loader({
+                                apiKey: "AIzaSyD2J9TyPQUKhwf4a63N4E0Mj3jn01laYsk",
+                                version: "weekly"
+                              });
+                              
+                              loader.load().then(() => {
+                                
+                                map = new google.maps.Map(document.getElementById('map'), {
+                                    center: {lat: -20, lng: 30},
+                                    zoom: 3
+                                  });
+                                  map = new google.maps.Map(document.getElementById('map'), {
+                                    center: {lat: -34.397, lng: 150.644},
+                                    zoom: 8
+                                  });
+                                  
+                              });
             return item
         }))
         /* create a filtered array of items that have been sold */
@@ -80,19 +83,20 @@ export default function CreatorDashboard() {
     return (
         <html>
         <head>
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2J9TyPQUKhwf4a63N4E0Mj3jn01laYsk&v=3&callback=init" async defer></script>
+        
         </head>
 
         <div>
             <div className="p-4">
                 <h2 className="text-2xl py-2">Items Created</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
+                <div className="grid grid-cols- gap-4 pt">
                     {
                         nfts.map((nft, i) => (
-                           <div id="__next">
-                           <div id="map">
-                            </div>
-                            <div key={i} className="border shadow rounded-xl overflow-hidden">
+                           <div >
+                           <div id="map"></div>
+                           
+
+                            <div key={i} className="border shadow rounded-xl overflow-hidden" >
                                 
                                 <div className="p-4 bg-black">
                                     <p className="text-2xl font-bold text-white">Price - {nft.price} Eth</p>
