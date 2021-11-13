@@ -30,6 +30,8 @@ export default function CreatorDashboard() {
             network: "mainnet",
             cacheProvider: true,
         })
+
+        
         const connection = await web3Modal.connect()
         const provider = new ethers.providers.Web3Provider(connection)
         const signer = provider.getSigner()
@@ -54,23 +56,7 @@ export default function CreatorDashboard() {
                 image: meta.data.image,
                 CoordCenter: meta.data.CoordCenter,
                             }
-                          const loader = new Loader({
-                                apiKey: "AIzaSyD2J9TyPQUKhwf4a63N4E0Mj3jn01laYsk",
-                                version: "weekly"
-                              });
-                              
-                              loader.load().then(() => {
-                                
-                                map = new google.maps.Map(document.getElementById('map'), {
-                                    center: {lat: -20, lng: 30},
-                                    zoom: 3
-                                  });
-                                  map = new google.maps.Map(document.getElementById('map'), {
-                                    center: {lat: -34.397, lng: 150.644},
-                                    zoom: 8
-                                  });
-                                  
-                              });
+                         
             return item
         }))
         /* create a filtered array of items that have been sold */
@@ -89,21 +75,19 @@ export default function CreatorDashboard() {
         <div>
             <div className="p-4">
                 <h2 className="text-2xl py-2">Items Created</h2>
-                <div className="grid grid-cols- gap-4 pt">
+                <div className="grid grid-cols-3 gap-4 pt">
                     {
                         nfts.map((nft, i) => (
-                           <div >
-                           <div id="map"></div>
-                           
+                                                     
 
                             <div key={i} className="border shadow rounded-xl overflow-hidden" >
-                                
+                            <img src= {`https://maps.googleapis.com/maps/api/staticmap?center=${nft.CoordCenter},${nft.CoordCenter}&zoom=5&size=600x600&maptype=satellite&sensor=false&path=color:red|weight:1|fillcolor:white|33.4022475,-111.9426775|33.4022475,-111.9427525|33.4023225,-111.9427525|33.4023225,-111.9426775|33.4022475,-111.9426775&key=AIzaSyCJtJkKb1xi8b64N1AdgG3ZAqX5n466pf4 `}className="rounded" />
                                 <div className="p-4 bg-black">
                                     <p className="text-2xl font-bold text-white">Price - {nft.price} Eth</p>
                                     <p className="text-2xl font-bold text-white">Coords - {nft.CoordCenter}</p>
                                 </div>
                             </div>
-                            </div>
+                            
                         ))
                     }
                 </div>
@@ -118,7 +102,7 @@ export default function CreatorDashboard() {
                                 {
                                     sold.map((nft, i) => (
                                         <div key={i} className="border shadow rounded-xl overflow-hidden">
-                                            <img src={nft.image} className="rounded" />
+                                            <img src= "https://maps.googleapis.com/maps/api/staticmap?center=33.402285,-111.942715&zoom=19&size=600x600&maptype=satellite&sensor=false&path=color:red|weight:1|fillcolor:white|33.4022475,-111.9426775|33.4022475,-111.9427525|33.4023225,-111.9427525|33.4023225,-111.9426775|33.4022475,-111.9426775&key=AIzaSyCJtJkKb1xi8b64N1AdgG3ZAqX5n466pf4" className="rounded" />
                                             <div className="p-4 bg-black">
                                                 <p className="text-2xl font-bold text-white">Price - {nft.price} Eth</p>
                                             </div>
