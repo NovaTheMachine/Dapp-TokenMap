@@ -13,7 +13,6 @@ contract NFTMarket is ReentrancyGuard {
 
     address payable owner;
     uint256 listingPrice = 1;
-    
 
     constructor() {
         owner = payable(msg.sender);
@@ -25,13 +24,22 @@ contract NFTMarket is ReentrancyGuard {
         uint256 tokenId;
         address payable seller;
         address payable owner;
-        bool sold;
-        int256 CoordCenter;
-        int256 PolygonCoords;
         uint256 price;
     }
-
     mapping(uint256 => Land) private idToMarketItem;
+    struct Coordinates {
+        int256 CoordCenterLat;
+        int256 CoordCenterLng;
+        int256 CoordLat1;
+        int256 CoordLat2;
+        int256 CoordLat3;
+        int256 CoordLat4;
+        int256 CoordLng1;
+        int256 CoordLng2;
+        int256 CoordLng3;
+        int256 CoordLng4;
+    }
+    mapping(uint256 => Coordinates) private idToCoordinates;
 
     event LandCreated(
         uint256 indexed itemId,
@@ -39,23 +47,38 @@ contract NFTMarket is ReentrancyGuard {
         uint256 indexed tokenId,
         address seller,
         address owner,
-        bool sold,
-        int256 CoordCenter,
-        int256 PolygonCoords,
         uint256 price
+    );
+    event CoordinatesCreated(
+        int256 CoordCenterLat,
+        int256 CoordCenterLng,
+        int256 CoordLat1,
+        int256 CoordLat2,
+        int256 CoordLat3,
+        int256 CoordLat4,
+        int256 CoordLng1,
+        int256 CoordLng2,
+        int256 CoordLng3,
+        int256 CoordLng4
     );
 
     function getListingPrice() public view returns (uint256) {
         return listingPrice;
     }
 
-
-
     function createMarketItem(
         address nftContract,
         uint256 tokenId,
-        int256 CoordCenter,
-        int256 PolygonCoords,
+        int256 CoordCenterLat,
+        int256 CoordCenterLng,
+        int256 CoordLat1,
+        int256 CoordLat2,
+        int256 CoordLat3,
+        int256 CoordLat4,
+        int256 CoordLng1,
+        int256 CoordLng2,
+        int256 CoordLng3,
+        int256 CoordLng4,
         uint256 price
     ) public payable nonReentrant {
         _itemIds.increment();
@@ -67,10 +90,19 @@ contract NFTMarket is ReentrancyGuard {
             tokenId,
             payable(msg.sender),
             payable(address(0)),
-            false,
-            CoordCenter,
-            PolygonCoords,
             price
+        );
+        idToCoordinates[itemId] = Coordinates(
+            CoordCenterLat,
+            CoordCenterLng,
+            CoordLat1,
+            CoordLat2,
+            CoordLat3,
+            CoordLat4,
+            CoordLng1,
+            CoordLng2,
+            CoordLng3,
+            CoordLng4
         );
 
         IERC721(nftContract).transferFrom(msg.sender, address(this), tokenId);
@@ -80,10 +112,19 @@ contract NFTMarket is ReentrancyGuard {
             tokenId,
             msg.sender,
             address(0),
-            false,
-            CoordCenter,
-            PolygonCoords,
             price
+        );
+        emit CoordinatesCreated(
+            CoordCenterLat,
+            CoordCenterLng,
+            CoordLat1,
+            CoordLat2,
+            CoordLat3,
+            CoordLat4,
+            CoordLng1,
+            CoordLng2,
+            CoordLng3,
+            CoordLng4
         );
     }
 
@@ -102,7 +143,7 @@ contract NFTMarket is ReentrancyGuard {
         idToMarketItem[itemId].seller.transfer(msg.value);
         IERC721(nftContract).transferFrom(address(this), msg.sender, tokenId);
         idToMarketItem[itemId].owner = payable(msg.sender);
-        idToMarketItem[itemId].sold = true;
+
         _itemsSold.increment();
         payable(owner).transfer(listingPrice);
     }
@@ -172,3 +213,7 @@ contract NFTMarket is ReentrancyGuard {
         return items;
     }
 }
+
+  
+
+
