@@ -41,7 +41,7 @@ export default function CreateItem() {
     }
     async function createMarket() {
         const { name, description, price, CoordCenterLat, CoordCenterLng, CoordLng1, CoordLat1, CoordLng2, CoordLat2, CoordLng3, CoordLat3, CoordLng4, CoordLat4 } = formInput
-        if (!name || !description || !price || !fileUrl) return
+        if (!name || !description || !fileUrl) return
         /* first, upload to IPFS */
         const data = JSON.stringify({
             name, description, image: fileUrl, CoordCenterLat, CoordCenterLng, CoordLng1, CoordLat1, CoordLng2, CoordLat2, CoordLng3, CoordLat3, CoordLng4, CoordLat4
@@ -69,7 +69,7 @@ export default function CreateItem() {
         let event = tx.events[0]
         let value = event.args[2]
         let tokenId = value.toNumber()
-        const price = ethers.utils.parseUnits(formInput.price, 'ether')
+        const price = ethers.utils.parseEther(formInput.price, 'ether')
         const CoordCenterLat = formInput.CoordCenterLat
         const CoordCenterLng = formInput.CoordCenterLng
         const CoordLng1 = formInput.CoordLng1
@@ -84,12 +84,12 @@ export default function CreateItem() {
 
         /* then list the item for sale on the marketplace */
         contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
+        let listingPrice = await contract.getListingPrice()
+        listingPrice = listingPrice.toString()
 
 
 
-
-
-        transaction = await contract.createMarketItem(nftaddress, tokenId, price, CoordCenterLng, CoordCenterLat, CoordLng1, CoordLng2, CoordLng3, CoordLng4, CoordLat1, CoordLat2, CoordLat3, CoordLat4)
+        transaction = await contract.createMarketItem(nftaddress, tokenId, price)
         await transaction.wait()
         router.push('/')
     }
@@ -113,6 +113,7 @@ export default function CreateItem() {
                     className="mt-2 border rounded p-4"
                     onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
                 />
+
                 <div class="grid grid-cols-2 gap-2">
                     <input
                         placeholder="Center Coordinate lat"
