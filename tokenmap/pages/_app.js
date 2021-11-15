@@ -1,6 +1,9 @@
 import '../styles/globals.css'
 import Link from 'next/link'
 
+
+
+
 function MyApp({ Component, pageProps }) {
   return (
     <div>
@@ -25,6 +28,11 @@ function MyApp({ Component, pageProps }) {
           <Link href="/creator-dashboard">
             <a className="mr-6 text-blue-500">
               Creator Dashboard
+            </a>
+          </Link>
+          <Link href="/test">
+            <a className="mr-6 text-blue-500">
+              test
             </a>
           </Link>
         </div>

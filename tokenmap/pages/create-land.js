@@ -7,6 +7,7 @@ import Web3Modal from 'web3modal'
 
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
 
+
 import {
     nftaddress, nftmarketaddress
 } from '../config'
@@ -14,9 +15,13 @@ import {
 import NFT from '/home/toshiba/projects/Blockchain/HACKATHON/Dapp-TokenMap/tokenmap/artifacts/contracts/NFT.sol/NFT.json'
 import Market from '/home/toshiba/projects/Blockchain/HACKATHON/Dapp-TokenMap/tokenmap/artifacts/contracts/NFTMarket.sol/NFTMarket.json'
 
-export default function CreateLand() {
+
+export default function CreateItem() {
     const [fileUrl, setFileUrl] = useState(null)
-    const [formInput, updateFormInput] = useState({ GeolocationCoordinates: '', name: '', description: '' })
+    const [formInput, updateFormInput] = useState({
+        price: '', name: '', description: '', CoordCenterLng: '', CoordCenterLat: '',
+        CoordLng1: '', CoordLat1: '', CoordLng2: '', CoordLat2: '', CoordLng3: '', CoordLat3: '', CoordLng4: '', CoordLat4: ''
+    })
     const router = useRouter()
 
     async function onChange(e) {
@@ -35,11 +40,11 @@ export default function CreateLand() {
         }
     }
     async function createMarket() {
-        const { name, description, GeolocationCoordinates } = formInput
-        if (!name || !description || !GeolocationCoordinates || !fileUrl) return
+        const { name, description, price, CoordCenterLat, CoordCenterLng, CoordLng1, CoordLat1, CoordLng2, CoordLat2, CoordLng3, CoordLat3, CoordLng4, CoordLat4 } = formInput
+        if (!name || !description || !fileUrl) return
         /* first, upload to IPFS */
         const data = JSON.stringify({
-            name, description, image: fileUrl
+            name, description, image: fileUrl, CoordCenterLat, CoordCenterLng, CoordLng1, CoordLat1, CoordLng2, CoordLat2, CoordLng3, CoordLat3, CoordLng4, CoordLat4
         })
         try {
             const added = await client.add(data)
@@ -51,7 +56,7 @@ export default function CreateLand() {
         }
     }
 
-    async function create(url) {
+    async function createSale(url) {
         const web3Modal = new Web3Modal()
         const connection = await web3Modal.connect()
         const provider = new ethers.providers.Web3Provider(connection)
@@ -64,17 +69,33 @@ export default function CreateLand() {
         let event = tx.events[0]
         let value = event.args[2]
         let tokenId = value.toNumber()
+        const price = ethers.utils.parseEther(formInput.price, 'ether')
+        const CoordCenterLat = formInput.CoordCenterLat
+        const CoordCenterLng = formInput.CoordCenterLng
+        const CoordLng1 = formInput.CoordLng1
+        const CoordLng2 = formInput.CoordLng2
+        const CoordLng3 = formInput.CoordLng3
+        const CoordLng4 = formInput.CoordLng4
+        const CoordLat1 = formInput.CoordLat1
+        const CoordLat2 = formInput.CoordLat2
+        const CoordLat3 = formInput.CoordLat3
+        const CoordLat4 = formInput.CoordLat4
+
 
         /* then list the item for sale on the marketplace */
         contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
+        let listingPrice = await contract.getListingPrice()
+        listingPrice = listingPrice.toString()
 
 
-        transaction = await contract.createMarketItem(nftaddress, tokenId)
+
+        transaction = await contract.createMarketItem(nftaddress, tokenId, price)
         await transaction.wait()
         router.push('/')
     }
 
     return (
+
         <div className="flex justify-evenly">
             <div className="w-1/2 flex flex-col ">
                 <input
@@ -87,66 +108,66 @@ export default function CreateLand() {
                     className="mt-2 border rounded p-4"
                     onChange={e => updateFormInput({ ...formInput, description: e.target.value })}
                 />
-
+                <input
+                    placeholder="Asset Price in Eth"
+                    className="mt-2 border rounded p-4"
+                    onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
+                />
 
                 <div class="grid grid-cols-2 gap-2">
                     <input
                         placeholder="Center Coordinate lat"
                         className="mt-2 border rounded p-4"
-                        onChange={e => updateFormInput({ ...formInput, centerCoordinatesLat: e.target.value })}
+                        onChange={e => updateFormInput({ ...formInput, CoordCenterLat: e.target.value })}
                     />
                     <input
                         placeholder="Center Coordinate long"
                         className="mt-2 border rounded p-4"
-                        onChange={e => updateFormInput({ ...formInput, centerCoordinatesLong: e.target.value })}
+                        onChange={e => updateFormInput({ ...formInput, CoordCenterLng: e.target.value })}
                     />
                     <input
                         placeholder="Coordinates lat 1"
                         className="mt-1 border rounded p-4"
-                        onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
+                        onChange={e => updateFormInput({ ...formInput, CoordLat1: e.target.value })}
                     />
                     <input
-                        placeholder="Coordinates "
+                        placeholder="Coordinates Long 1 "
                         className="mt-1 border rounded p-4"
-                        onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
+                        onChange={e => updateFormInput({ ...formInput, CoordLng1: e.target.value })}
                     />
 
                     <input
                         placeholder="Coordinates lat 2"
                         className="mt-1 border rounded p-4"
-                        onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
-                    /> lat
+                        onChange={e => updateFormInput({ ...formInput, CoordLat2: e.target.value })}
+                    />
                     <input
-                        placeholder="Coordinates"
+                        placeholder="Coordinates Long 2"
                         className="mt-1 border rounded p-4"
-                        onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
+                        onChange={e => updateFormInput({ ...formInput, CoordLng2: e.target.value })}
                     />
                     <input
                         placeholder="Coordinates lat 3"
                         className="mt-1 border rounded p-4"
-                        onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
+                        onChange={e => updateFormInput({ ...formInput, CoordLat3: e.target.value })}
                     />
                     <input
-                        placeholder="Coordinates"
+                        placeholder="Coordinates Long 3"
                         className="mt-1 border rounded p-4"
-                        onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
+                        onChange={e => updateFormInput({ ...formInput, CoordLng3: e.target.value })}
                     />
 
                     <input
                         placeholder="Coordinates lat 4 "
                         className="mt-1 border rounded p-4"
-                        onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
+                        onChange={e => updateFormInput({ ...formInput, CoordLat4: e.target.value })}
                     />
                     <input
-                        placeholder="Coordinates"
+                        placeholder="Coordinates Long 4"
                         className="mt-1 border rounded p-4"
-                        onChange={e => updateFormInput({ ...formInput, coordinates: e.target.value })}
+                        onChange={e => updateFormInput({ ...formInput, CoordLng4: e.target.value })}
                     />
                 </div>
-
-
-
-
 
                 <input
                     type="file"
