@@ -89,7 +89,7 @@ export default function CreatorDashboard() {
 
 
                                 <div key={i} className="border shadow rounded-xl overflow-hidden" >
-                                    <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${nft.CoordCenterLat},${nft.CoordCenterLng}&zoom=5&size=600x600&maptype=satellite&sensor=false&path=color:red|weight:1|fillcolor:white|${nft.CoordLat1},${nft.CoordLng1}|${nft.CoordLat2},${nft.CoordLng2}|${nft.CoordLat3},${nft.CoordLng3}|${nft.CoordLat4},${nft.CoordLng4}&key=AIzaSyCJtJkKb1xi8b64N1AdgG3ZAqX5n466pf4 `} className="rounded" />
+                                    <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${nft.CoordCenterLat},${nft.CoordCenterLng}&zoom=20&size=600x600&maptype=satellite&sensor=false&path=color:white|weight:4|fillcolor:red|${nft.CoordLat1},${nft.CoordLng1}|${nft.CoordLat2},${nft.CoordLng2}|${nft.CoordLat3},${nft.CoordLng3}|${nft.CoordLat4},${nft.CoordLng4}&key=AIzaSyCJtJkKb1xi8b64N1AdgG3ZAqX5n466pf4 `} className="rounded" />
                                     <div className="p-4 bg-black">
                                         <p className="text-2xl font-bold text-white">Price - {nft.price} Eth</p>
                                         <p className="text-2xl font-bold text-white">Coords - {nft.CoordCenterLat}</p>
