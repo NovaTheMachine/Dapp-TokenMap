@@ -6,33 +6,29 @@ import Link from 'next/link'
 
 function MyApp({ Component, pageProps }) {
   return (
-    <div>
+    <div  >
       <nav className="border-b p-6">
+
         <p className="text-4xl font-bold">Cadastral Token Map</p>
-        <div className="flex mt-4">
-          <Link href="/">
-            <a className="mr-4 text-blue-500">
+        <div class="flex mr-3" >
+          <Link href="/creator-dashboard">
+            <a class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3">
               Home
             </a>
           </Link>
-          <Link href="/create-land">
-            <a className="mr-6 text-blue-500">
+          <Link href="/create-land" >
+            <a class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3">
               Create a new land
             </a>
           </Link>
-          <Link href="/my-lands">
-            <a className="mr-6 text-blue-500">
+          <Link href="/my-lands" class="mr-1" >
+            <a class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3">
               My Lands
             </a>
           </Link>
-          <Link href="/creator-dashboard">
-            <a className="mr-6 text-blue-500">
+          <Link href="/creator-dashboard" class="mr-1" >
+            <a class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3">
               Creator Dashboard
-            </a>
-          </Link>
-          <Link href="/test">
-            <a className="mr-6 text-blue-500">
-              test
             </a>
           </Link>
         </div>
