@@ -45,7 +45,7 @@ export default function CreatorDashboard() {
             const meta = await axios.get(tokenUri)
             let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
             let item = {
-                name,
+                name:meta.data.name,
                 description: meta.data.description,
                 price,
                 tokenId: i.tokenId.toNumber(),
