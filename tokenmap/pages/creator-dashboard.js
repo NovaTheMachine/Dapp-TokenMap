@@ -45,7 +45,7 @@ export default function CreatorDashboard() {
             const meta = await axios.get(tokenUri)
             let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
             let item = {
-                name:meta.data.name,
+                name: meta.data.name,
                 description: meta.data.description,
                 price,
                 tokenId: i.tokenId.toNumber(),
@@ -62,7 +62,17 @@ export default function CreatorDashboard() {
                 CoordLng3: meta.data.CoordLng3,
                 CoordLat3: meta.data.CoordLat3,
                 CoordLng4: meta.data.CoordLng4,
-                CoordLat4: meta.data.CoordLat4
+                CoordLat4: meta.data.CoordLat4,
+                CoordLat5: meta.data.CoordLat5,
+                CoordLng5: meta.data.CoordLng5,
+                CoordLng6: meta.data.CoordLng6,
+                CoordLat6: meta.data.CoordLat6,
+                CoordLng7: meta.data.CoordLng7,
+                CoordLat7: meta.data.CoordLat7,
+                CoordLng8: meta.data.CoordLng8,
+                CoordLat8: meta.data.CoordLat8,
+                CoordLng9: meta.data.CoordLng9,
+                CoordLat9: meta.data.CoordLat9
             }
 
             return item
@@ -89,7 +99,10 @@ export default function CreatorDashboard() {
 
 
                                 <div key={i} className="border shadow rounded-xl overflow-hidden" >
-                                    <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${nft.CoordCenterLat},${nft.CoordCenterLng}&zoom=20&size=1600x1600&maptype=satellite&sensor=false&path=color:white|weight:4|fillcolor:red|${nft.CoordLat1},${nft.CoordLng1}|${nft.CoordLat2},${nft.CoordLng2}|${nft.CoordLat3},${nft.CoordLng3}|${nft.CoordLat4},${nft.CoordLng4}&key=AIzaSyCJtJkKb1xi8b64N1AdgG3ZAqX5n466pf4 `} className="rounded flex-auto" />
+                                    <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${nft.CoordCenterLat},${nft.CoordCenterLng}
+                                    &zoom=20&size=1600x1600&maptype=satellite&sensor=false&path=color:white|weight:4|fillcolor:red|
+                                    ${nft.CoordLat1},${nft.CoordLng1}|${nft.CoordLat2},${nft.CoordLng2}|${nft.CoordLat3},${nft.CoordLng3}|${nft.CoordLat4},${nft.CoordLng4}|
+                                    ${nft.CoordLat5},${nft.CoordLng5}|${nft.CoordLat6},${nft.CoordLng6}|${nft.CoordLat7},${nft.CoordLng7}|${nft.CoordLat8},${nft.CoordLng8}|${nft.CoordLat9},${nft.CoordLng9}&key=AIzaSyCJtJkKb1xi8b64N1AdgG3ZAqX5n466pf4 `} className="rounded flex-auto" />
                                     <div className="p-4 bg-black">
                                         <p className="text-2xl font-bold text-white">Name - {nft.name}</p>
                                         <p className="text-2xl font-bold text-white">Price - {nft.price} Eth</p>

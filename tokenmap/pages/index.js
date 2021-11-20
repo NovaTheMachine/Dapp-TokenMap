@@ -3,7 +3,6 @@ import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from "web3modal"
-import { Loader } from "@googlemaps/js-api-loader"
 
 import {
   nftaddress, nftmarketaddress
