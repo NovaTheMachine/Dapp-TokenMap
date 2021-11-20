@@ -45,6 +45,7 @@ export default function CreatorDashboard() {
             const meta = await axios.get(tokenUri)
             let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
             let item = {
+                name,
                 description: meta.data.description,
                 price,
                 tokenId: i.tokenId.toNumber(),
@@ -90,6 +91,7 @@ export default function CreatorDashboard() {
                                 <div key={i} className="border shadow rounded-xl overflow-hidden" >
                                     <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${nft.CoordCenterLat},${nft.CoordCenterLng}&zoom=20&size=1600x1600&maptype=satellite&sensor=false&path=color:white|weight:4|fillcolor:red|${nft.CoordLat1},${nft.CoordLng1}|${nft.CoordLat2},${nft.CoordLng2}|${nft.CoordLat3},${nft.CoordLng3}|${nft.CoordLat4},${nft.CoordLng4}&key=AIzaSyCJtJkKb1xi8b64N1AdgG3ZAqX5n466pf4 `} className="rounded flex-auto" />
                                     <div className="p-4 bg-black">
+                                        <p className="text-2xl font-bold text-white">Name - {nft.name}</p>
                                         <p className="text-2xl font-bold text-white">Price - {nft.price} Eth</p>
                                         <p className="text-2xl font-bold text-white">Description - {nft.description}</p>
                                     </div>

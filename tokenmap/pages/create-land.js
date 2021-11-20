@@ -20,7 +20,8 @@ export default function CreateItem() {
     const [fileUrl, setFileUrl] = useState(null)
     const [formInput, updateFormInput] = useState({
         price: '', name: '', description: '', CoordCenterLng: '', CoordCenterLat: '',
-        CoordLng1: '', CoordLat1: '', CoordLng2: '', CoordLat2: '', CoordLng3: '', CoordLat3: '', CoordLng4: '', CoordLat4: ''
+        CoordLng1: '', CoordLat1: '', CoordLng2: '', CoordLat2: '', CoordLng3: '', CoordLat3: '', CoordLng4: '', CoordLat4: '',
+        CoordLng5: '', CoordLat5: '', CoordLng6: '', CoordLat6: '', CoordLng7: '', CoordLat7: '', CoordLng8: '', CoordLat8: '', CoordLng9: '', CoordLat9: ''
     })
     const router = useRouter()
 
@@ -40,11 +41,12 @@ export default function CreateItem() {
         }
     }
     async function createMarket() {
-        const { name, description, price, CoordCenterLat, CoordCenterLng, CoordLng1, CoordLat1, CoordLng2, CoordLat2, CoordLng3, CoordLat3, CoordLng4, CoordLat4 } = formInput
+        const { name, description, price, CoordCenterLat, CoordCenterLng, CoordLng1, CoordLat1, CoordLng2, CoordLat2, CoordLng3, CoordLat3, CoordLng4, CoordLat4, CoordLng5, CoordLat5, CoordLng6, CoordLat6, CoordLng7, CoordLat7, CoordLng8, CoordLat8, CoordLng9, CoordLat9 } = formInput
         if (!name || !description || !fileUrl) return
         /* first, upload to IPFS */
         const data = JSON.stringify({
-            name, description, image: fileUrl, CoordCenterLat, CoordCenterLng, CoordLng1, CoordLat1, CoordLng2, CoordLat2, CoordLng3, CoordLat3, CoordLng4, CoordLat4
+            name, description, image: fileUrl, CoordCenterLat, CoordCenterLng, CoordLng1, CoordLat1, CoordLng2, CoordLat2, CoordLng3,
+            CoordLat3, CoordLng4, CoordLat4, CoordLng5, CoordLat5, CoordLng6, CoordLat6, CoordLng7, CoordLat7, CoordLng8, CoordLat8, CoordLng9, CoordLat9
         })
         try {
             const added = await client.add(data)
@@ -80,6 +82,16 @@ export default function CreateItem() {
         const CoordLat2 = formInput.CoordLat2
         const CoordLat3 = formInput.CoordLat3
         const CoordLat4 = formInput.CoordLat4
+        const CoordLng5 = formInput.CoordLng5
+        const CoordLng6 = formInput.CoordLng9
+        const CoordLng7 = formInput.CoordLng7
+        const CoordLng8 = formInput.CoordLng8
+        const CoordLng9 = formInput.CoordLng9
+        const CoordLat5 = formInput.CoordLat5
+        const CoordLat6 = formInput.CoordLat6
+        const CoordLat7 = formInput.CoordLat7
+        const CoordLat8 = formInput.CoordLat8
+        const CoordLat9 = formInput.CoordLat9
 
 
         /* then list the item for sale on the marketplace */
@@ -166,6 +178,58 @@ export default function CreateItem() {
                         placeholder="Coordinates Long 4"
                         className="mt-1 border rounded p-4"
                         onChange={e => updateFormInput({ ...formInput, CoordLng4: e.target.value })}
+                    />
+                    <input
+                        placeholder="Coordinates lat 5"
+                        className="mt-1 border rounded p-4"
+                        onChange={e => updateFormInput({ ...formInput, CoordLat5: e.target.value })}
+                    />
+                    <input
+                        placeholder="Coordinates Long 5 "
+                        className="mt-1 border rounded p-4"
+                        onChange={e => updateFormInput({ ...formInput, CoordLng5: e.target.value })}
+                    />
+
+                    <input
+                        placeholder="Coordinates lat 6"
+                        className="mt-1 border rounded p-4"
+                        onChange={e => updateFormInput({ ...formInput, CoordLat6: e.target.value })}
+                    />
+                    <input
+                        placeholder="Coordinates Long 6"
+                        className="mt-1 border rounded p-4"
+                        onChange={e => updateFormInput({ ...formInput, CoordLng6: e.target.value })}
+                    />
+                    <input
+                        placeholder="Coordinates lat 7"
+                        className="mt-1 border rounded p-4"
+                        onChange={e => updateFormInput({ ...formInput, CoordLat7: e.target.value })}
+                    />
+                    <input
+                        placeholder="Coordinates Long 7"
+                        className="mt-1 border rounded p-4"
+                        onChange={e => updateFormInput({ ...formInput, CoordLng7: e.target.value })}
+                    />
+
+                    <input
+                        placeholder="Coordinates lat 8 "
+                        className="mt-1 border rounded p-4"
+                        onChange={e => updateFormInput({ ...formInput, CoordLat8: e.target.value })}
+                    />
+                    <input
+                        placeholder="Coordinates Long 8"
+                        className="mt-1 border rounded p-4"
+                        onChange={e => updateFormInput({ ...formInput, CoordLng8: e.target.value })}
+                    />
+                    <input
+                        placeholder="Coordinates lat 9 "
+                        className="mt-1 border rounded p-4"
+                        onChange={e => updateFormInput({ ...formInput, CoordLat9: e.target.value })}
+                    />
+                    <input
+                        placeholder="Coordinates Long 9"
+                        className="mt-1 border rounded p-4"
+                        onChange={e => updateFormInput({ ...formInput, CoordLng9: e.target.value })}
                     />
                 </div>
 
