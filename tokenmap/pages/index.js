@@ -16,17 +16,6 @@ export default function Home() {
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState('not-loaded')
   useEffect(() => {
-    const loader = new Loader({
-      apiKey: "AIzaSyD2J9TyPQUKhwf4a63N4E0Mj3jn01laYsk",
-      version: "weekly"
-    });
-    
-    loader.load().then(() => {
-      map = new google.maps.Map(document.getElementById("map"), {
-        center: { lat: -34.397, lng: 150.644 },
-        zoom: 8,
-      });
-    });
     loadLands()
   }, [])
   async function loadLands() {
@@ -83,7 +72,8 @@ export default function Home() {
           {
             nfts.map((nft, i) => (
               <div key={i} className="border shadow rounded-xl overflow-hidden">
-                <img src={nft.image} />
+                <img src={nft.image}/>
+                <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${nft.CoordCenterLat},${nft.CoordCenterLng}&zoom=20&size=1600x1600&maptype=satellite&sensor=false&path=color:white|weight:4|fillcolor:red|${nft.CoordLat1},${nft.CoordLng1}|${nft.CoordLat2},${nft.CoordLng2}|${nft.CoordLat3},${nft.CoordLng3}|${nft.CoordLat4},${nft.CoordLng4}&key=AIzaSyCJtJkKb1xi8b64N1AdgG3ZAqX5n466pf4 `} className="rounded flex-auto" />
                 <div className="p-4">
                   <p style={{ height: '64px' }} className="text-2xl font-semibold">{nft.name}</p>
                   <div style={{ height: '70px', overflow: 'hidden' }}>
