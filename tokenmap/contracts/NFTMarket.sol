@@ -13,7 +13,6 @@ contract NFTMarket is ReentrancyGuard {
 
     address payable owner;
     uint256 listingPrice = 1;
-    
 
     constructor() {
         owner = payable(msg.sender);
@@ -45,8 +44,6 @@ contract NFTMarket is ReentrancyGuard {
         return listingPrice;
     }
 
-
-
     function createMarketItem(
         address nftContract,
         uint256 tokenId,
@@ -65,7 +62,7 @@ contract NFTMarket is ReentrancyGuard {
             price
         );
 
-        IERC721(nftContract).transferFrom(msg.sender, address(msg.sender), tokenId);
+        IERC721(nftContract).transferFrom(msg.sender, address(this), tokenId);
         emit LandCreated(
             itemId,
             nftContract,
