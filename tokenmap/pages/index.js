@@ -22,7 +22,7 @@ export default function Home() {
     const provider = new ethers.providers.JsonRpcProvider("https://rinkeby.infura.io/v3/d5b5a5f91fae4fd1b5f9eb66fc3e2295")
     const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider)
     const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, provider)
-    const data = await marketContract.fetchMarketItems()
+    const data = await marketContract.fetchMyNFTs()
 
     /*
     *  map over items returned from smart contract and format 

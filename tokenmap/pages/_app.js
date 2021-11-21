@@ -12,11 +12,7 @@ function MyApp({ Component, pageProps }) {
 
         <p className="text-4xl font-bold">Cadastral Token Map</p>
         <div class="flex mr-3" >
-          <Link href="/">
-            <a class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3">
-              Home
-            </a>
-          </Link>
+
           <Link href="/create-land" >
             <a class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3">
               Create a new land

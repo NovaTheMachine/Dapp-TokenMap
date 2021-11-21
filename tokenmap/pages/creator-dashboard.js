@@ -46,13 +46,12 @@ export default function CreatorDashboard() {
             let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
             let item = {
                 name: meta.data.name,
-                description: meta.data.description,
                 price,
                 tokenId: i.tokenId.toNumber(),
                 seller: i.seller,
                 owner: i.owner,
-                sold: i.sold,
                 image: meta.data.image,
+                description: meta.data.description,
                 CoordCenterLat: meta.data.CoordCenterLat,
                 CoordCenterLng: meta.data.CoordCenterLng,
                 CoordLat1: meta.data.CoordLat1,
@@ -100,9 +99,10 @@ export default function CreatorDashboard() {
 
                                 <div key={i} className="border shadow rounded-xl overflow-hidden" >
                                     <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${nft.CoordCenterLat},${nft.CoordCenterLng}
-                                    &zoom=19&size=1600x1600&maptype=satellite&sensor=false&path=color:white|weight:4|fillcolor:red|
+                                    &size=1600x1600&maptype=satellite&sensor=false&path=color:white|weight:4|fillcolor:red|
                                     ${nft.CoordLat1},${nft.CoordLng1}|${nft.CoordLat2},${nft.CoordLng2}|${nft.CoordLat3},${nft.CoordLng3}|${nft.CoordLat4},${nft.CoordLng4}|
                                     ${nft.CoordLat5},${nft.CoordLng5}|${nft.CoordLat6},${nft.CoordLng6}|${nft.CoordLat7},${nft.CoordLng7}|${nft.CoordLat8},${nft.CoordLng8}|${nft.CoordLat9},${nft.CoordLng9}&key=AIzaSyCJtJkKb1xi8b64N1AdgG3ZAqX5n466pf4 `} className="rounded flex-auto" />
+                                    <img src={nft.image} />
                                     <div className="p-4 bg-black">
                                         <p className="text-2xl font-bold text-white">Name - {nft.name}</p>
                                         <p className="text-2xl font-bold text-white">Price - {nft.price} Eth</p>
@@ -125,6 +125,7 @@ export default function CreatorDashboard() {
                                         sold.map((nft, i) => (
                                             <div key={i} className="border shadow rounded-xl overflow-hidden">
                                                 <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${nft.CoordCenter},${nft.CoordCenter}&zoom=5&size=600x600&maptype=satellite&sensor=false&path=color:red|weight:1|fillcolor:white|33.4022475,-111.9426775|33.4022475,-111.9427525|33.4023225,-111.9427525|33.4023225,-111.9426775|33.4022475,-111.9426775&key=AIzaSyCJtJkKb1xi8b64N1AdgG3ZAqX5n466pf4 `} className="rounded" />
+                                                <img src={nft.image} />
                                                 <div className="p-4 bg-black">
                                                     <p className="text-2xl font-bold text-white">Price -  Eth</p>
                                                 </div>

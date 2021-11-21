@@ -57,12 +57,12 @@ contract NFTMarket is ReentrancyGuard {
             nftContract,
             tokenId,
             payable(msg.sender),
-            payable(address(0)),
+            payable(msg.sender),
             false,
             price
         );
 
-        IERC721(nftContract).transferFrom(msg.sender, address(this), tokenId);
+        //IERC721(nftContract).transferFrom(msg.sender, address(this), tokenId);
         emit LandCreated(
             itemId,
             nftContract,

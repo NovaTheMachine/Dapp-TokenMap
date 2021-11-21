@@ -104,7 +104,7 @@ export default function CreateItem() {
 
         transaction = await contract.createMarketItem(nftaddress, tokenId, price)
         await transaction.wait()
-        router.push('/')
+        router.push('/my-lands')
     }
 
     return (
@@ -139,96 +139,96 @@ export default function CreateItem() {
                         onChange={e => updateFormInput({ ...formInput, CoordCenterLng: e.target.value })}
                     />
                     <input
-                        placeholder="Coordinates lat 1"
+                        placeholder="Coordinate lat 1"
                         className="mt-1 border rounded p-4"
                         onChange={e => updateFormInput({ ...formInput, CoordLat1: e.target.value })}
                     />
                     <input
-                        placeholder="Coordinates Long 1 "
+                        placeholder="Coordinate Long 1 "
                         className="mt-1 border rounded p-4"
                         onChange={e => updateFormInput({ ...formInput, CoordLng1: e.target.value })}
                     />
 
                     <input
-                        placeholder="Coordinates lat 2"
+                        placeholder="Coordinate lat 2"
                         className="mt-1 border rounded p-4"
                         onChange={e => updateFormInput({ ...formInput, CoordLat2: e.target.value })}
                     />
                     <input
-                        placeholder="Coordinates Long 2"
+                        placeholder="Coordinate Long 2"
                         className="mt-1 border rounded p-4"
                         onChange={e => updateFormInput({ ...formInput, CoordLng2: e.target.value })}
                     />
                     <input
-                        placeholder="Coordinates lat 3"
+                        placeholder="Coordinate lat 3"
                         className="mt-1 border rounded p-4"
                         onChange={e => updateFormInput({ ...formInput, CoordLat3: e.target.value })}
                     />
                     <input
-                        placeholder="Coordinates Long 3"
+                        placeholder="Coordinate Long 3"
                         className="mt-1 border rounded p-4"
                         onChange={e => updateFormInput({ ...formInput, CoordLng3: e.target.value })}
                     />
 
                     <input
-                        placeholder="Coordinates lat 4 "
+                        placeholder="Coordinate lat 4 "
                         className="mt-1 border rounded p-4"
                         onChange={e => updateFormInput({ ...formInput, CoordLat4: e.target.value })}
                     />
                     <input
-                        placeholder="Coordinates Long 4"
+                        placeholder="Coordinate Long 4"
                         className="mt-1 border rounded p-4"
                         onChange={e => updateFormInput({ ...formInput, CoordLng4: e.target.value })}
                     />
                     <input
-                        placeholder="Coordinates lat 5"
+                        placeholder="Coordinate lat 5"
                         className="mt-1 border rounded p-4"
                         onChange={e => updateFormInput({ ...formInput, CoordLat5: e.target.value })}
                     />
                     <input
-                        placeholder="Coordinates Long 5 "
+                        placeholder="Coordinate Long 5 "
                         className="mt-1 border rounded p-4"
                         onChange={e => updateFormInput({ ...formInput, CoordLng5: e.target.value })}
                     />
 
                     <input
-                        placeholder="Coordinates lat 6"
+                        placeholder="Coordinate lat 6"
                         className="mt-1 border rounded p-4"
                         onChange={e => updateFormInput({ ...formInput, CoordLat6: e.target.value })}
                     />
                     <input
-                        placeholder="Coordinates Long 6"
+                        placeholder="Coordinate Long 6"
                         className="mt-1 border rounded p-4"
                         onChange={e => updateFormInput({ ...formInput, CoordLng6: e.target.value })}
                     />
                     <input
-                        placeholder="Coordinates lat 7"
+                        placeholder="Coordinate lat 7"
                         className="mt-1 border rounded p-4"
                         onChange={e => updateFormInput({ ...formInput, CoordLat7: e.target.value })}
                     />
                     <input
-                        placeholder="Coordinates Long 7"
+                        placeholder="Coordinate Long 7"
                         className="mt-1 border rounded p-4"
                         onChange={e => updateFormInput({ ...formInput, CoordLng7: e.target.value })}
                     />
 
                     <input
-                        placeholder="Coordinates lat 8 "
+                        placeholder="Coordinate lat 8 "
                         className="mt-1 border rounded p-4"
                         onChange={e => updateFormInput({ ...formInput, CoordLat8: e.target.value })}
                     />
                     <input
-                        placeholder="Coordinates Long 8"
+                        placeholder="Coordinate Long 8"
                         className="mt-1 border rounded p-4"
                         onChange={e => updateFormInput({ ...formInput, CoordLng8: e.target.value })}
                     />
                     <input
-                        placeholder="Coordinates lat 9 "
+                        placeholder="Coordinate lat 9 "
                         className="mt-1 border rounded p-4"
                         onChange={e => updateFormInput({ ...formInput, CoordLat9: e.target.value })}
                     />
                     <input
-                        placeholder="Coordinates Long 9"
+                        placeholder="Coordinate Long 9"
                         className="mt-1 border rounded p-4"
                         onChange={e => updateFormInput({ ...formInput, CoordLng9: e.target.value })}
                     />

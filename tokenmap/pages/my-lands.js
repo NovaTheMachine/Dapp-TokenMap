@@ -41,7 +41,27 @@ export default function MyAssets() {
         seller: i.seller,
         owner: i.owner,
         image: meta.data.image,
-        CoordCenter: meta.data.CoordCenter
+        description: meta.data.description,
+        CoordCenterLat: meta.data.CoordCenterLat,
+        CoordCenterLng: meta.data.CoordCenterLng,
+        CoordLat1: meta.data.CoordLat1,
+        CoordLng1: meta.data.CoordLng1,
+        CoordLng2: meta.data.CoordLng2,
+        CoordLat2: meta.data.CoordLat2,
+        CoordLng3: meta.data.CoordLng3,
+        CoordLat3: meta.data.CoordLat3,
+        CoordLng4: meta.data.CoordLng4,
+        CoordLat4: meta.data.CoordLat4,
+        CoordLat5: meta.data.CoordLat5,
+        CoordLng5: meta.data.CoordLng5,
+        CoordLng6: meta.data.CoordLng6,
+        CoordLat6: meta.data.CoordLat6,
+        CoordLng7: meta.data.CoordLng7,
+        CoordLat7: meta.data.CoordLat7,
+        CoordLng8: meta.data.CoordLng8,
+        CoordLat8: meta.data.CoordLat8,
+        CoordLng9: meta.data.CoordLng9,
+        CoordLat9: meta.data.CoordLat9
       }
       return item
     }))
@@ -56,11 +76,22 @@ export default function MyAssets() {
           {
             nfts.map((nft, i) => (
               <div key={i} className="border shadow rounded-xl overflow-hidden">
-                <img src={nft.image} className="rounded" />
-                <div className="p-4 bg-black">
-                  <p className="text-2xl font-bold text-white">Price - {nft.price} Eth</p>
-                </div>
-              </div>
+              <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${nft.CoordCenterLat},${nft.CoordCenterLng}
+                  &size=1600x1600&maptype=satellite&sensor=false&path=color:white|weight:4|fillcolor:red|
+                  ${nft.CoordLat1},${nft.CoordLng1}|${nft.CoordLat2},${nft.CoordLng2}|${nft.CoordLat3},${nft.CoordLng3}|${nft.CoordLat4},${nft.CoordLng4}|
+                  ${nft.CoordLat5},${nft.CoordLng5}|${nft.CoordLat6},${nft.CoordLng6}|${nft.CoordLat7},${nft.CoordLng7}|${nft.CoordLat8},${nft.CoordLng8}|${nft.CoordLat9},${nft.CoordLng9}&key=AIzaSyCJtJkKb1xi8b64N1AdgG3ZAqX5n466pf4 `} className="rounded flex-auto" />
+
+<div className="p-4">
+<p style={{ height: '2%' }} className="text-2xl font-semibold">{nft.name}</p>
+<div style={{ height: '3%', overflow: 'hidden' }}>
+  <p className="text-gray-400">{nft.description}</p>
+</div>
+</div>
+<div className="p-4 bg-black">
+<p className="text-2xl mb-4 font-bold text-white">{nft.price} ETH</p>
+
+</div>
+</div>
             ))
           }
         </div>
