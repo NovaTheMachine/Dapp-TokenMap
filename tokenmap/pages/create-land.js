@@ -5,6 +5,7 @@ import { create as ipfsHttpClient } from 'ipfs-http-client'
 import { useRouter } from 'next/router'
 import Web3Modal from 'web3modal'
 
+
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
 
 
@@ -45,7 +46,7 @@ export default function CreateItem() {
         if (!name || !description || !fileUrl) return
         /* first, upload to IPFS */
         const data = JSON.stringify({
-            name, description, image: fileUrl, CoordCenterLat, CoordCenterLng, CoordLng1, CoordLat1, CoordLng2, CoordLat2, CoordLng3,
+            price, name, description, image: fileUrl, CoordCenterLat, CoordCenterLng, CoordLng1, CoordLat1, CoordLng2, CoordLat2, CoordLng3,
             CoordLat3, CoordLng4, CoordLat4, CoordLng5, CoordLat5, CoordLng6, CoordLat6, CoordLng7, CoordLat7, CoordLng8, CoordLat8, CoordLng9, CoordLat9
         })
         try {

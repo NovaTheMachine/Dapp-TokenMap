@@ -1,6 +1,6 @@
 /* pages/creator-dashboard.js */
 import { ethers } from 'ethers'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from "web3modal"
 
@@ -100,7 +100,7 @@ export default function CreatorDashboard() {
 
                                 <div key={i} className="border shadow rounded-xl overflow-hidden" >
                                     <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${nft.CoordCenterLat},${nft.CoordCenterLng}
-                                    &zoom=20&size=1600x1600&maptype=satellite&sensor=false&path=color:white|weight:4|fillcolor:red|
+                                    &zoom=19&size=1600x1600&maptype=satellite&sensor=false&path=color:white|weight:4|fillcolor:red|
                                     ${nft.CoordLat1},${nft.CoordLng1}|${nft.CoordLat2},${nft.CoordLng2}|${nft.CoordLat3},${nft.CoordLng3}|${nft.CoordLat4},${nft.CoordLng4}|
                                     ${nft.CoordLat5},${nft.CoordLng5}|${nft.CoordLat6},${nft.CoordLng6}|${nft.CoordLat7},${nft.CoordLng7}|${nft.CoordLat8},${nft.CoordLng8}|${nft.CoordLat9},${nft.CoordLng9}&key=AIzaSyCJtJkKb1xi8b64N1AdgG3ZAqX5n466pf4 `} className="rounded flex-auto" />
                                     <div className="p-4 bg-black">
