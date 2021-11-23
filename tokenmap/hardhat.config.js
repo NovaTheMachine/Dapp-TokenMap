@@ -8,12 +8,12 @@ module.exports = {
     hardhat: {
       chainId: 1337
     },
-    rinkeby: {
-      url: "https://rinkeby.infura.io/v3/d5b5a5f91fae4fd1b5f9eb66fc3e2295",
+    mumbai: {
+      url: "https://polygon-mumbai.infura.io/v3/d5b5a5f91fae4fd1b5f9eb66fc3e2295",
       accounts: [privateKey]
     },
     mainnet: {
-      url: "https://rinkeby.infura.io/v3/d5b5a5f91fae4fd1b5f9eb66fc3e2295",
+      url: "https://polygon-mumbai.infura.io/v3/d5b5a5f91fae4fd1b5f9eb66fc3e2295",
       accounts: [privateKey]
     }
   },

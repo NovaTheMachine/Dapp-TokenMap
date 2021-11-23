@@ -7,10 +7,15 @@ import {useEffect, useRef} from 'react';
 
 function MyApp({ Component, pageProps }) {
   return (
+    
     <div  >
+      <script src="https://kit.fontawesome.com/cc4fa26501.js" crossorigin="anonymous"></script>
       <nav className="border-b p-6">
-
-        <p className="text-4xl font-bold">Cadastral Token Map</p>
+      <div >
+      <i class="fas fa-map"></i>
+      <p className="text-4xl font-bold">Cadastral Token Map</p>
+      </div>
+       
         <div class="flex mr-3" >
 
           <Link href="/create-land" >
