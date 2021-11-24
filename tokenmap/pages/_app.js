@@ -13,10 +13,10 @@ function MyApp({ Component, pageProps }) {
       <nav className="border-b p-6">
       <div >
       <i class="fas fa-map"></i>
-      <p className="text-4xl font-bold">Cadastral Token Map</p>
+      <p className="text-8xl font-bold text-center ">Token Map</p>
       </div>
        
-        <div class="flex mr-3" >
+        <div class="flex mr-3 text-3xl" >
 
           <Link href="/create-land" >
             <a class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-1 px-3">
