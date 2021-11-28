@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import Link from 'next/link'
-import {useEffect, useRef} from 'react';
+
 
 
 
@@ -9,11 +9,11 @@ function MyApp({ Component, pageProps }) {
   return (
     
     <div  >
-      <script src="https://kit.fontawesome.com/cc4fa26501.js" crossorigin="anonymous"></script>
+      <script src="https://kit.fontawesome.com/cc4fa26501.js" crossOrigin="anonymous"></script>
       <nav className="border-b p-6">
-      <div >
-      <i class="fas fa-map"></i>
-      <p className="text-8xl font-bold text-center ">Token Map</p>
+      <div className= "flex justify-center " >
+      <i ></i>
+      <p class="text-8xl fas fa-map" className="text-8xl font-bold "> Token Map</p>
       </div>
        
         <div class="flex mr-3 text-3xl" >

@@ -26,7 +26,7 @@ export default function CreatorDashboard() {
     async function loadNFTs() {
 
         const web3Modal = new Web3Modal({
-            network: "mainnet",
+            network: "rinkeby",
             cacheProvider: true,
         })
 
@@ -71,7 +71,8 @@ export default function CreatorDashboard() {
                 CoordLng8: meta.data.CoordLng8,
                 CoordLat8: meta.data.CoordLat8,
                 CoordLng9: meta.data.CoordLng9,
-                CoordLat9: meta.data.CoordLat9
+                CoordLat9: meta.data.CoordLat9,
+                
             }
 
             return item
@@ -107,6 +108,8 @@ export default function CreatorDashboard() {
                                         <p className="text-2xl font-bold text-white">Name - {nft.name}</p>
                                         <p className="text-2xl font-bold text-white">Price - {nft.price} Eth</p>
                                         <p className="text-2xl font-bold text-white">Description - {nft.description}</p>
+                                        <p className="text-2xl font-bold text-white">API Name - {nft.apiName}</p>
+
                                     </div>
                                 </div>
 

@@ -42,11 +42,11 @@ export default function CreateItem() {
         }
     }
     async function createMarket() {
-        const { name, description, price, CoordCenterLat, CoordCenterLng, CoordLng1, CoordLat1, CoordLng2, CoordLat2, CoordLng3, CoordLat3, CoordLng4, CoordLat4, CoordLng5, CoordLat5, CoordLng6, CoordLat6, CoordLng7, CoordLat7, CoordLng8, CoordLat8, CoordLng9, CoordLat9 } = formInput
+        const { apiName, name, description, price, CoordCenterLat, CoordCenterLng, CoordLng1, CoordLat1, CoordLng2, CoordLat2, CoordLng3, CoordLat3, CoordLng4, CoordLat4, CoordLng5, CoordLat5, CoordLng6, CoordLat6, CoordLng7, CoordLat7, CoordLng8, CoordLat8, CoordLng9, CoordLat9 } = formInput
         if (!name || !description || !fileUrl) return
         /* first, upload to IPFS */
         const data = JSON.stringify({
-            price, name, description, image: fileUrl, CoordCenterLat, CoordCenterLng, CoordLng1, CoordLat1, CoordLng2, CoordLat2, CoordLng3,
+            apiName, price, name, description, image: fileUrl, CoordCenterLat, CoordCenterLng, CoordLng1, CoordLat1, CoordLng2, CoordLat2, CoordLng3,
             CoordLat3, CoordLng4, CoordLat4, CoordLng5, CoordLat5, CoordLng6, CoordLat6, CoordLng7, CoordLat7, CoordLng8, CoordLat8, CoordLng9, CoordLat9
         })
         try {
@@ -59,6 +59,11 @@ export default function CreateItem() {
         }
     }
 
+
+
+
+
+
     async function createSale(url) {
         const web3Modal = new Web3Modal()
         const connection = await web3Modal.connect()
@@ -66,7 +71,7 @@ export default function CreateItem() {
         const signer = provider.getSigner()
 
         /* next, create the item */
-        let contract = new ethers.Contract(nftaddress, NFT.abi, signer)
+        let contract = new ethers.Contract(nftaddress, NFT.abi, signer) 
         let transaction = await contract.createToken(url)
         let tx = await transaction.wait()
         let event = tx.events[0]
@@ -93,16 +98,29 @@ export default function CreateItem() {
         const CoordLat7 = formInput.CoordLat7
         const CoordLat8 = formInput.CoordLat8
         const CoordLat9 = formInput.CoordLat9
+        
 
 
         /* then list the item for sale on the marketplace */
         contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
+
+
         let listingPrice = await contract.getListingPrice()
         listingPrice = listingPrice.toString()
 
 
+       
+            
+            let marketContract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
+         const apiName = marketContract.requestName()
+         apiName=marketContract.bytes32ToString(apiName)
 
-        transaction = await contract.createMarketItem(nftaddress, tokenId, price)
+      
+
+
+
+        transaction = await contract.createMarketItem(nftaddress, tokenId, price, CoordCenterLat,
+            CoordCenterLng)
         await transaction.wait()
         router.push('/my-lands')
     }

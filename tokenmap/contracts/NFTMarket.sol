@@ -5,16 +5,30 @@ pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
 
-contract NFTMarket is ReentrancyGuard {
+contract NFTMarket is ReentrancyGuard, ChainlinkClient {
     using Counters for Counters.Counter;
+    using Chainlink for Chainlink.Request;
     Counters.Counter private _itemIds;
     Counters.Counter private _itemsSold;
+
+    bytes32 public apiName;
+    string public CoordCenterLat;
+    string public CoordCenterLng;
+
+    address private oracle;
+    bytes32 private jobId;
+    uint256 private fee;
 
     address payable owner;
     uint256 listingPrice = 1;
 
     constructor() {
+        setPublicChainlinkToken();
+        oracle = 0x92b39b120471cf7D18814b543F0A6f4DA802d4BB;
+        jobId = "90b3e2abdde74c98bc2223b82d909c03";
+        fee = 1 * 10**18; // (Varies by network and job)
         owner = payable(msg.sender);
     }
 
@@ -26,6 +40,9 @@ contract NFTMarket is ReentrancyGuard {
         address payable owner;
         bool sold;
         uint256 price;
+        bytes32 apiName;
+        string CoordCenterLat;
+        string CoordCenterLng;
     }
 
     mapping(uint256 => Land) private idToMarketItem;
@@ -37,7 +54,10 @@ contract NFTMarket is ReentrancyGuard {
         address seller,
         address owner,
         bool sold,
-        uint256 price
+        uint256 price,
+        bytes32 apiName,
+        string CoordCenterLat,
+        string CoordCenterLng
     );
 
     function getListingPrice() public view returns (uint256) {
@@ -47,7 +67,9 @@ contract NFTMarket is ReentrancyGuard {
     function createMarketItem(
         address nftContract,
         uint256 tokenId,
-        uint256 price
+        uint256 price,
+        string memory CoordCenterLat,
+        string memory CoordCenterLng
     ) public payable nonReentrant {
         _itemIds.increment();
         uint256 itemId = _itemIds.current();
@@ -59,7 +81,10 @@ contract NFTMarket is ReentrancyGuard {
             payable(msg.sender),
             payable(msg.sender),
             false,
-            price
+            price,
+            apiName,
+            CoordCenterLat,
+            CoordCenterLng
         );
 
         //IERC721(nftContract).transferFrom(msg.sender, address(this), tokenId);
@@ -70,7 +95,10 @@ contract NFTMarket is ReentrancyGuard {
             msg.sender,
             address(0),
             false,
-            price
+            price,
+            apiName,
+            CoordCenterLat,
+            CoordCenterLng
         );
     }
 
@@ -157,5 +185,45 @@ contract NFTMarket is ReentrancyGuard {
             }
         }
         return items;
+    }
+
+    function requestName() public returns (bytes32 requestId) {
+        Chainlink.Request memory request = buildChainlinkRequest(
+            jobId,
+            address(this),
+            this.fulfill.selector
+        );
+
+        // Set the URL to perform the GET request on
+        request.add(
+            "get",
+            "http://api.positionstack.com/v1/reverse?access_key=0ec8faafff8a3cf2ec1602b1bb173fd4&query=44.4125,4.52146"
+        );
+
+        request.add("path", "data.0.name");
+
+        // Sends the request
+        return sendChainlinkRequestTo(oracle, request, fee);
+    }
+
+    function fulfill(bytes32 _requestId, bytes32 _apiName)
+        public
+        recordChainlinkFulfillment(_requestId)
+        returns (bytes32)
+    {
+        apiName = _apiName;
+        return apiName;
+    }
+
+    function bytes32ToString() public view returns (string memory) {
+        uint8 i = 0;
+        while (i < 32 && apiName[i] != 0) {
+            i++;
+        }
+        bytes memory bytesArray = new bytes(i);
+        for (i = 0; i < 32 && apiName[i] != 0; i++) {
+            bytesArray[i] = apiName[i];
+        }
+        return string(bytesArray);
     }
 }
